@@ -63,7 +63,7 @@ export const SimulationModule = ({ trains }: SimulationModuleProps) => {
   const [progress, setProgress] = useState(0);
   const [results, setResults] = useState<SimResult[] | null>(null);
   const [simTime, setSimTime] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [speed, setSpeed] = useState(50);
   const [trainCount, setTrainCount] = useState(trains.length);
 
