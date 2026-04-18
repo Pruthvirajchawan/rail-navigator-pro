@@ -54,37 +54,37 @@ export const Sidebar = ({ activeView, onViewChange, alertCount, conflictCount }:
         collapsed && "justify-center px-2"
       )}>
         <div className="relative flex-shrink-0 w-9 h-9">
-          <div className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/30 flex items-center justify-center pulse-primary">
+          <div className="w-9 h-9 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center">
             <Train className="w-5 h-5 text-primary" />
           </div>
-          <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+          <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-status-on-time ring-2 ring-sidebar" />
         </div>
         {!collapsed && (
           <div className="overflow-hidden">
-            <h1 className="text-sm font-display font-bold text-foreground leading-tight tracking-wider">
-              RAILNET
+            <h1 className="text-base font-display font-bold text-foreground leading-tight tracking-tight">
+              RailNet
             </h1>
-            <p className="text-[10px] text-foreground-muted tracking-widest uppercase">Control System</p>
+            <p className="text-[10px] text-foreground-muted tracking-wider uppercase font-medium">Control System</p>
           </div>
         )}
       </div>
 
       {/* System status bar */}
       {!collapsed && (
-        <div className="mx-3 my-3 px-3 py-2 rounded-md bg-primary/5 border border-primary/20">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-[10px] text-foreground-muted font-mono tracking-widest">SYSTEM STATUS</span>
-            <span className="flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <span className="text-[10px] text-primary font-mono">ONLINE</span>
+        <div className="mx-3 my-3 px-3 py-2.5 rounded-lg bg-background-secondary border border-border">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[10px] text-foreground-muted font-medium tracking-wider uppercase">System</span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-status-on-time animate-pulse-soft" />
+              <span className="text-[10px] text-status-on-time font-mono font-medium">ONLINE</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <Activity className="w-3 h-3 text-primary" />
+            <Activity className="w-3 h-3 text-foreground-muted" />
             <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
-              <div className="h-full w-[87%] bg-gradient-to-r from-primary to-secondary rounded-full" />
+              <div className="h-full w-[87%] bg-primary rounded-full" />
             </div>
-            <span className="text-[10px] text-primary font-mono">87%</span>
+            <span className="text-[10px] text-foreground font-mono">87%</span>
           </div>
         </div>
       )}
@@ -108,9 +108,8 @@ export const Sidebar = ({ activeView, onViewChange, alertCount, conflictCount }:
               )}
             >
               <Icon className={cn(
-                "flex-shrink-0 w-4.5 h-4.5 transition-all",
-                isActive ? "text-primary drop-shadow-[0_0_6px_hsl(152_100%_50%/0.8)]" : "group-hover:text-foreground",
-                "w-[18px] h-[18px]"
+                "flex-shrink-0 w-[18px] h-[18px] transition-colors",
+                isActive ? "text-primary" : "text-foreground-muted group-hover:text-foreground",
               )} />
               {!collapsed && (
                 <>
@@ -143,8 +142,8 @@ export const Sidebar = ({ activeView, onViewChange, alertCount, conflictCount }:
       )}>
         {!collapsed && (
           <div className="flex items-center gap-2 mb-2 px-2">
-            <Radio className="w-3.5 h-3.5 text-secondary animate-pulse" />
-            <span className="text-[10px] font-mono text-secondary">LIVE DATA STREAM</span>
+            <Radio className="w-3.5 h-3.5 text-secondary animate-pulse-soft" />
+            <span className="text-[10px] font-mono text-foreground-muted tracking-wider">LIVE DATA STREAM</span>
           </div>
         )}
         <button className={cn(
