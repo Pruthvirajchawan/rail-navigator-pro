@@ -12,12 +12,12 @@ export const TopBar = ({ metrics, currentTime, alertCount }: TopBarProps) => {
   return (
     <header className="h-14 bg-background-secondary border-b border-border flex items-center px-6 gap-4 flex-shrink-0">
       {/* Left - Title */}
-      <div className="flex items-center gap-3 mr-auto">
-        <div>
-          <h2 className="text-sm font-display font-semibold text-foreground tracking-tight">
+      <div className="flex items-center gap-3 mr-auto min-w-0">
+        <div className="min-w-0">
+          <h2 className="text-sm font-display font-semibold text-foreground tracking-tight truncate">
             Indian Railways · Section Control
           </h2>
-          <p className="text-[10px] text-foreground-muted font-mono">Northern Railway Division · Zone Alpha</p>
+          <p className="text-[10px] text-foreground-muted font-mono truncate">Northern Railway Division · Zone Alpha</p>
         </div>
       </div>
 
