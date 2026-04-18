@@ -114,7 +114,7 @@ export const SchedulingEngine = ({ trains, tick }: SchedulingEngineProps) => {
               </div>
             ))}
             <div className="h-1 bg-muted rounded-full overflow-hidden mt-2">
-              <div className="h-full bg-gradient-to-r from-warning to-primary rounded-full animate-data-stream w-2/3" />
+              <div className="h-full bg-gradient-to-r from-warning to-primary rounded-full animate-pulse-soft w-2/3" />
             </div>
           </div>
         )}

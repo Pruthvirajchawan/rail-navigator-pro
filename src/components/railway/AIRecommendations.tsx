@@ -211,7 +211,7 @@ export const AIRecommendations = ({ trains, tick }: AIRecommendationsProps) => {
             ))}
           </div>
           <div className="mt-3 h-1 bg-muted rounded-full overflow-hidden">
-            <div className="h-full bg-gradient-to-r from-primary to-secondary rounded-full animate-data-stream w-3/4" />
+            <div className="h-full bg-gradient-to-r from-primary to-secondary rounded-full animate-pulse-soft w-3/4" />
           </div>
         </div>
       )}

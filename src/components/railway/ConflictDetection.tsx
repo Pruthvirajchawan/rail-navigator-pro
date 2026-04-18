@@ -64,7 +64,7 @@ export const ConflictDetection = ({ conflicts, trains, onResolve }: ConflictDete
           { label: "Resolving", value: resolvingConflicts.length, color: "warning", icon: Clock, pulse: false },
           { label: "Resolved Today", value: resolvedConflicts.length + 31, color: "primary", icon: CheckCircle, pulse: false },
         ].map(({ label, value, color, icon: Icon, pulse }) => (
-          <div key={label} className={cn("card-glass rounded-xl p-4 text-center", pulse && "pulse-danger")}>
+          <div key={label} className={cn("card-glass rounded-xl p-4 text-center", pulse && "animate-pulse-soft")}>
             <div className={cn("w-8 h-8 rounded-lg mx-auto mb-2 flex items-center justify-center", `bg-${color}/10 border border-${color}/25`)}>
               <Icon className={cn("w-4 h-4", `text-${color}`)} />
             </div>
@@ -94,7 +94,7 @@ export const ConflictDetection = ({ conflicts, trains, onResolve }: ConflictDete
                 className={cn(
                   "absolute transform -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full border-2 flex items-center justify-center text-[8px] font-mono cursor-pointer transition-all",
                   hasConflict
-                    ? "border-destructive bg-destructive/20 shadow-[0_0_8px_hsl(0_85%_58%/0.8)] animate-pulse"
+                    ? "border-destructive bg-destructive/20  animate-pulse"
                     : "border-primary/50 bg-primary/10"
                 )}
                 style={{ left: `${cx}%`, top: `${cy}%` }}
