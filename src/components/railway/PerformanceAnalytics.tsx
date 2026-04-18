@@ -95,20 +95,20 @@ export const PerformanceAnalytics = ({ metrics, tick }: PerformanceAnalyticsProp
             <AreaChart data={hourlyData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="gradOnTime" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(152, 100%, 50%)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(152, 100%, 50%)" stopOpacity={0} />
+                  <stop offset="5%" stopColor="hsl(152, 55%, 48%)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="hsl(152, 55%, 48%)" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="gradDelayed" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="hsl(38, 100%, 55%)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="hsl(38, 100%, 55%)" stopOpacity={0} />
+                  <stop offset="5%" stopColor="hsl(35, 90%, 55%)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="hsl(35, 90%, 55%)" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 25%, 15%)" />
-              <XAxis dataKey="hour" tick={{ fontSize: 9, fill: "hsl(215, 20%, 40%)", fontFamily: "JetBrains Mono" }} interval={3} />
-              <YAxis tick={{ fontSize: 9, fill: "hsl(215, 20%, 40%)", fontFamily: "JetBrains Mono" }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(222, 16%, 20%)" />
+              <XAxis dataKey="hour" tick={{ fontSize: 9, fill: "hsl(215, 16%, 60%)", fontFamily: "JetBrains Mono" }} interval={3} />
+              <YAxis tick={{ fontSize: 9, fill: "hsl(215, 16%, 60%)", fontFamily: "JetBrains Mono" }} />
               <Tooltip contentStyle={customTooltipStyle} />
-              <Area type="monotone" dataKey="onTime" name="On Time" stroke="hsl(152, 100%, 50%)" strokeWidth={2} fill="url(#gradOnTime)" />
-              <Area type="monotone" dataKey="delayed" name="Delayed" stroke="hsl(38, 100%, 55%)" strokeWidth={2} fill="url(#gradDelayed)" />
+              <Area type="monotone" dataKey="onTime" name="On Time" stroke="hsl(152, 55%, 48%)" strokeWidth={2} fill="url(#gradOnTime)" />
+              <Area type="monotone" dataKey="delayed" name="Delayed" stroke="hsl(35, 90%, 55%)" strokeWidth={2} fill="url(#gradDelayed)" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -153,12 +153,12 @@ export const PerformanceAnalytics = ({ metrics, tick }: PerformanceAnalyticsProp
           </h3>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={weeklyData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 25%, 15%)" />
-              <XAxis dataKey="day" tick={{ fontSize: 10, fill: "hsl(215, 20%, 40%)", fontFamily: "JetBrains Mono" }} />
-              <YAxis tick={{ fontSize: 10, fill: "hsl(215, 20%, 40%)", fontFamily: "JetBrains Mono" }} />
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(222, 16%, 20%)" />
+              <XAxis dataKey="day" tick={{ fontSize: 10, fill: "hsl(215, 16%, 60%)", fontFamily: "JetBrains Mono" }} />
+              <YAxis tick={{ fontSize: 10, fill: "hsl(215, 16%, 60%)", fontFamily: "JetBrains Mono" }} />
               <Tooltip contentStyle={customTooltipStyle} />
-              <Bar dataKey="avgDelay" name="Avg Delay (min)" fill="hsl(38, 100%, 55%)" radius={[3, 3, 0, 0]} />
-              <Bar dataKey="maxDelay" name="Max Delay (min)" fill="hsl(0, 85%, 58%)" opacity={0.6} radius={[3, 3, 0, 0]} />
+              <Bar dataKey="avgDelay" name="Avg Delay (min)" fill="hsl(35, 90%, 55%)" radius={[3, 3, 0, 0]} />
+              <Bar dataKey="maxDelay" name="Max Delay (min)" fill="hsl(0, 72%, 55%)" opacity={0.6} radius={[3, 3, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -187,7 +187,7 @@ export const PerformanceAnalytics = ({ metrics, tick }: PerformanceAnalyticsProp
                     className="h-full rounded-full transition-all duration-700"
                     style={{
                       width: `${efficiency}%`,
-                      background: efficiency > 90 ? "hsl(152, 100%, 50%)" : efficiency > 80 ? "hsl(195, 100%, 50%)" : "hsl(38, 100%, 55%)"
+                      background: efficiency > 90 ? "hsl(152, 55%, 48%)" : efficiency > 80 ? "hsl(188, 60%, 48%)" : "hsl(35, 90%, 55%)"
                     }}
                   />
                 </div>
@@ -205,12 +205,12 @@ export const PerformanceAnalytics = ({ metrics, tick }: PerformanceAnalyticsProp
         </h3>
         <ResponsiveContainer width="100%" height={160}>
           <LineChart data={hourlyData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(220, 25%, 15%)" />
-            <XAxis dataKey="hour" tick={{ fontSize: 9, fill: "hsl(215, 20%, 40%)", fontFamily: "JetBrains Mono" }} interval={3} />
-            <YAxis tick={{ fontSize: 9, fill: "hsl(215, 20%, 40%)", fontFamily: "JetBrains Mono" }} domain={[60, 100]} />
+            <CartesianGrid strokeDasharray="3 3" stroke="hsl(222, 16%, 20%)" />
+            <XAxis dataKey="hour" tick={{ fontSize: 9, fill: "hsl(215, 16%, 60%)", fontFamily: "JetBrains Mono" }} interval={3} />
+            <YAxis tick={{ fontSize: 9, fill: "hsl(215, 16%, 60%)", fontFamily: "JetBrains Mono" }} domain={[60, 100]} />
             <Tooltip contentStyle={customTooltipStyle} />
-            <Line type="monotone" dataKey="throughput" name="Throughput %" stroke="hsl(195, 100%, 50%)" strokeWidth={2} dot={false} />
-            <Line type="monotone" dataKey="efficiency" name="Efficiency %" stroke="hsl(152, 100%, 50%)" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="throughput" name="Throughput %" stroke="hsl(188, 60%, 48%)" strokeWidth={2} dot={false} />
+            <Line type="monotone" dataKey="efficiency" name="Efficiency %" stroke="hsl(152, 55%, 48%)" strokeWidth={2} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       </div>
