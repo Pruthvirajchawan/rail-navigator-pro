@@ -88,16 +88,16 @@ const TRAIN_NAMES: [string, string, string, string][] = [
 ];
 
 const STATIONS: StationMetrics[] = [
-  { name: "New Delhi", code: "NDLS", activeTrains: 12, platformsOccupied: 8, totalPlatforms: 16, avgDelay: 3.2, passengerLoad: 87, position: { x: 35, y: 22 } },
-  { name: "Mumbai Central", code: "BCT", activeTrains: 9, platformsOccupied: 5, totalPlatforms: 8, avgDelay: 5.1, passengerLoad: 92, position: { x: 18, y: 60 } },
-  { name: "Howrah Jn", code: "HWH", activeTrains: 11, platformsOccupied: 10, totalPlatforms: 23, avgDelay: 7.3, passengerLoad: 78, position: { x: 72, y: 45 } },
-  { name: "Chennai Central", code: "MAS", activeTrains: 7, platformsOccupied: 4, totalPlatforms: 12, avgDelay: 2.8, passengerLoad: 65, position: { x: 52, y: 78 } },
-  { name: "Bangalore City", code: "SBC", activeTrains: 5, platformsOccupied: 3, totalPlatforms: 10, avgDelay: 1.9, passengerLoad: 58, position: { x: 42, y: 82 } },
-  { name: "Ahmedabad", code: "ADI", activeTrains: 6, platformsOccupied: 4, totalPlatforms: 7, avgDelay: 4.4, passengerLoad: 71, position: { x: 20, y: 45 } },
-  { name: "Jaipur Jn", code: "JP", activeTrains: 4, platformsOccupied: 2, totalPlatforms: 6, avgDelay: 2.1, passengerLoad: 48, position: { x: 28, y: 35 } },
-  { name: "Agra Cantt", code: "AGC", activeTrains: 3, platformsOccupied: 2, totalPlatforms: 5, avgDelay: 1.5, passengerLoad: 42, position: { x: 42, y: 32 } },
-  { name: "Pune Jn", code: "PUNE", activeTrains: 4, platformsOccupied: 3, totalPlatforms: 6, avgDelay: 3.7, passengerLoad: 55, position: { x: 25, y: 68 } },
-  { name: "Gorakhpur", code: "GKP", activeTrains: 3, platformsOccupied: 2, totalPlatforms: 10, avgDelay: 8.2, passengerLoad: 63, position: { x: 52, y: 28 } },
+  { name: "New Delhi",       code: "NDLS", activeTrains: 12, platformsOccupied: 8,  totalPlatforms: 16, avgDelay: 3.2, passengerLoad: 87, position: { x: 42, y: 26 } },
+  { name: "Mumbai Central",  code: "BCT",  activeTrains: 9,  platformsOccupied: 5,  totalPlatforms: 8,  avgDelay: 5.1, passengerLoad: 92, position: { x: 28, y: 58 } },
+  { name: "Howrah Jn",       code: "HWH",  activeTrains: 11, platformsOccupied: 10, totalPlatforms: 23, avgDelay: 7.3, passengerLoad: 78, position: { x: 68, y: 46 } },
+  { name: "Chennai Central", code: "MAS",  activeTrains: 7,  platformsOccupied: 4,  totalPlatforms: 12, avgDelay: 2.8, passengerLoad: 65, position: { x: 52, y: 76 } },
+  { name: "Bangalore City",  code: "SBC",  activeTrains: 5,  platformsOccupied: 3,  totalPlatforms: 10, avgDelay: 1.9, passengerLoad: 58, position: { x: 44, y: 78 } },
+  { name: "Ahmedabad",       code: "ADI",  activeTrains: 6,  platformsOccupied: 4,  totalPlatforms: 7,  avgDelay: 4.4, passengerLoad: 71, position: { x: 28, y: 44 } },
+  { name: "Jaipur Jn",       code: "JP",   activeTrains: 4,  platformsOccupied: 2,  totalPlatforms: 6,  avgDelay: 2.1, passengerLoad: 48, position: { x: 34, y: 36 } },
+  { name: "Agra Cantt",      code: "AGC",  activeTrains: 3,  platformsOccupied: 2,  totalPlatforms: 5,  avgDelay: 1.5, passengerLoad: 42, position: { x: 46, y: 34 } },
+  { name: "Pune Jn",         code: "PUNE", activeTrains: 4,  platformsOccupied: 3,  totalPlatforms: 6,  avgDelay: 3.7, passengerLoad: 55, position: { x: 34, y: 64 } },
+  { name: "Gorakhpur",       code: "GKP",  activeTrains: 3,  platformsOccupied: 2,  totalPlatforms: 10, avgDelay: 8.2, passengerLoad: 63, position: { x: 56, y: 30 } },
 ];
 
 const generateInitialTrains = (): Train[] => {
