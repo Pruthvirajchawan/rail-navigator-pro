@@ -25,10 +25,16 @@ const MetricCard = ({
   sublabel?: string;
 }) => {
   const variantStyles = {
-    primary: "card-primary",
-    warning: "card-warning",
-    danger: "card-danger",
-    secondary: "border border-secondary/20 bg-secondary/5",
+    primary: "bg-card border border-border",
+    warning: "bg-card border border-border",
+    danger: "bg-card border border-border",
+    secondary: "bg-card border border-border",
+  };
+  const iconBg = {
+    primary: "bg-primary/10 border border-primary/25",
+    warning: "bg-warning/10 border border-warning/25",
+    danger: "bg-destructive/10 border border-destructive/25",
+    secondary: "bg-secondary/10 border border-secondary/25",
   };
   const iconColors = {
     primary: "text-primary",
@@ -37,30 +43,30 @@ const MetricCard = ({
     secondary: "text-secondary",
   };
   const valueColors = {
-    primary: "text-primary text-glow-primary",
-    warning: "text-warning text-glow-warning",
-    danger: "text-destructive text-glow-danger",
-    secondary: "text-secondary text-glow-secondary",
+    primary: "text-foreground",
+    warning: "text-foreground",
+    danger: "text-foreground",
+    secondary: "text-foreground",
   };
 
   return (
-    <div className={cn("rounded-xl p-4 animate-fade-up", variantStyles[variant || "primary"])}>
+    <div className={cn("rounded-xl p-4 animate-fade-up shadow-card", variantStyles[variant || "primary"])}>
       <div className="flex items-start justify-between mb-3">
-        <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center", `bg-current/5 border border-current/20`)}>
+        <div className={cn("w-9 h-9 rounded-lg flex items-center justify-center", iconBg[variant || "primary"])}>
           <Icon className={cn("w-4 h-4", iconColors[variant || "primary"])} />
         </div>
         {trend && (
-          <span className={cn("text-[10px] font-mono flex items-center gap-0.5",
-            trend === "up" ? "text-primary" : trend === "down" ? "text-destructive" : "text-foreground-muted"
+          <span className={cn("text-[10px] font-mono flex items-center gap-0.5 px-1.5 py-0.5 rounded",
+            trend === "up" ? "text-status-on-time bg-status-on-time/10" : trend === "down" ? "text-destructive bg-destructive/10" : "text-foreground-muted"
           )}>
             {trend === "up" ? <TrendingUp className="w-3 h-3" /> : trend === "down" ? <TrendingDown className="w-3 h-3" /> : null}
           </span>
         )}
       </div>
-      <div className={cn("text-2xl font-display font-bold mb-0.5", valueColors[variant || "primary"])}>
-        {value}<span className="text-sm font-normal ml-1 opacity-70">{unit}</span>
+      <div className={cn("text-2xl font-display font-bold mb-0.5 tracking-tight", valueColors[variant || "primary"])}>
+        {value}<span className="text-sm font-medium ml-1 text-foreground-muted">{unit}</span>
       </div>
-      <p className="text-[11px] text-foreground-muted font-medium tracking-wide">{label}</p>
+      <p className="text-[11px] text-foreground-muted font-medium">{label}</p>
       {sublabel && <p className="text-[10px] text-foreground-subtle mt-0.5">{sublabel}</p>}
     </div>
   );
@@ -181,31 +187,31 @@ export const OverviewPanel = ({ metrics, tick }: OverviewPanelProps) => {
       {/* Conflicts resolved banner */}
       <div className="grid grid-cols-2 gap-3">
         <div className="card-glass rounded-xl p-4 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-primary/10 border border-primary/25 flex items-center justify-center flex-shrink-0">
-            <Zap className="w-6 h-6 text-primary" />
+          <div className="w-12 h-12 rounded-xl bg-status-on-time/10 border border-status-on-time/25 flex items-center justify-center flex-shrink-0">
+            <Zap className="w-6 h-6 text-status-on-time" />
           </div>
           <div>
-            <p className="text-2xl font-display font-bold text-primary">{metrics.conflictsResolved}</p>
+            <p className="text-2xl font-display font-bold text-foreground tracking-tight">{metrics.conflictsResolved}</p>
             <p className="text-[11px] text-foreground-muted">Conflicts auto-resolved today</p>
           </div>
         </div>
         <div className="card-glass rounded-xl p-4">
-          <p className="text-[10px] text-foreground-muted mb-2 tracking-widest uppercase">Traffic Flow</p>
-          <div className="flex items-end gap-0.5 h-8">
-            {Array.from({ length: 20 }).map((_, i) => {
-              const h = 20 + Math.sin((i + tick * 0.3) * 0.8) * 12 + Math.random() * 8;
+          <p className="text-[10px] text-foreground-muted mb-2 tracking-wider uppercase font-medium">Traffic Flow</p>
+          <div className="flex items-end gap-0.5 h-10">
+            {Array.from({ length: 24 }).map((_, i) => {
+              const h = 22 + Math.sin((i + tick * 0.3) * 0.6) * 14 + Math.random() * 6;
               return (
                 <div
                   key={i}
-                  className={cn("flex-1 rounded-sm transition-all duration-300",
-                    h > 30 ? "bg-primary" : h > 22 ? "bg-secondary/70" : "bg-muted"
+                  className={cn("flex-1 rounded-sm transition-all duration-500",
+                    h > 32 ? "bg-primary" : h > 24 ? "bg-secondary/70" : "bg-muted"
                   )}
                   style={{ height: `${h}px` }}
                 />
               );
             })}
           </div>
-          <p className="text-[10px] text-foreground-muted mt-1">Real-time network traffic</p>
+          <p className="text-[10px] text-foreground-muted mt-1.5">Real-time network traffic</p>
         </div>
       </div>
     </div>
