@@ -1,6 +1,6 @@
 import { Train, StationMetrics } from "@/hooks/useRailwayData";
 import { cn } from "@/lib/utils";
-import { MapPin, Train as TrainIcon, Wifi, AlertTriangle } from "lucide-react";
+import { Train as TrainIcon, Wifi, AlertTriangle } from "lucide-react";
 
 interface TrainMapProps {
   trains: Train[];
@@ -8,37 +8,81 @@ interface TrainMapProps {
   tick: number;
 }
 
-const statusColors: Record<string, string> = {
-  "on-time": "bg-primary shadow-[0_0_8px_hsl(152_100%_50%/0.9)]",
-  delayed: "bg-warning shadow-[0_0_8px_hsl(38_100%_55%/0.9)]",
-  critical: "bg-destructive shadow-[0_0_8px_hsl(0_85%_58%/0.9)] animate-pulse",
-  maintenance: "bg-status-maintenance shadow-[0_0_8px_hsl(270_80%_65%/0.9)]",
+const statusDotColors: Record<string, string> = {
+  "on-time": "bg-status-on-time",
+  delayed: "bg-status-delayed",
+  critical: "bg-status-critical",
+  maintenance: "bg-status-maintenance",
   idle: "bg-status-idle",
 };
 
+const statusFillColors: Record<string, string> = {
+  "on-time": "hsl(var(--status-on-time))",
+  delayed: "hsl(var(--status-delayed))",
+  critical: "hsl(var(--status-critical))",
+  maintenance: "hsl(var(--status-maintenance))",
+  idle: "hsl(var(--status-idle))",
+};
+
 const statusTextColors: Record<string, string> = {
-  "on-time": "text-primary",
-  delayed: "text-warning",
-  critical: "text-destructive",
+  "on-time": "text-status-on-time",
+  delayed: "text-status-delayed",
+  critical: "text-status-critical",
   maintenance: "text-status-maintenance",
   idle: "text-status-idle",
 };
 
+// Major rail corridors (logical track segments between station codes)
+const TRACKS: { id: string; from: string; to: string }[] = [
+  { id: "ndls-bct", from: "NDLS", to: "BCT" },
+  { id: "ndls-hwh", from: "NDLS", to: "HWH" },
+  { id: "ndls-jp", from: "NDLS", to: "JP" },
+  { id: "jp-adi", from: "JP", to: "ADI" },
+  { id: "adi-bct", from: "ADI", to: "BCT" },
+  { id: "bct-pune", from: "BCT", to: "PUNE" },
+  { id: "pune-sbc", from: "PUNE", to: "SBC" },
+  { id: "sbc-mas", from: "SBC", to: "MAS" },
+  { id: "mas-hwh", from: "MAS", to: "HWH" },
+  { id: "hwh-gkp", from: "HWH", to: "GKP" },
+  { id: "gkp-ndls", from: "GKP", to: "NDLS" },
+  { id: "ndls-agc", from: "NDLS", to: "AGC" },
+  { id: "agc-gkp", from: "AGC", to: "GKP" },
+];
+
 export const TrainMap = ({ trains, stations, tick }: TrainMapProps) => {
+  const stationByCode = Object.fromEntries(stations.map(s => [s.code, s]));
+
+  // Assign each running train to a track + animation duration based on speed
+  const runningTrains = trains.filter(t => t.status !== "idle");
+  const trainAssignments = runningTrains.map((train, i) => {
+    const track = TRACKS[i % TRACKS.length];
+    const baseDuration = 28;
+    // Faster trains complete the loop quicker (range ~15-40s)
+    const duration = Math.max(15, Math.min(40, baseDuration * (120 / Math.max(40, train.speed))));
+    return { train, trackId: track.id, duration };
+  });
+
   return (
     <div className="space-y-4">
       <div className="card-glass rounded-xl overflow-hidden">
         {/* Map header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="text-[11px] font-mono text-foreground-muted tracking-widest">LIVE NETWORK MAP · INDIAN RAILWAYS</span>
+            <span className="relative flex w-2 h-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-60 animate-signal-pulse" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+            </span>
+            <span className="text-[11px] font-mono text-foreground-muted tracking-wider">
+              LIVE NETWORK · INDIAN RAILWAYS
+            </span>
           </div>
           <div className="flex items-center gap-4">
-            {["on-time", "delayed", "critical", "maintenance"].map(s => (
+            {(["on-time", "delayed", "critical", "maintenance"] as const).map(s => (
               <div key={s} className="flex items-center gap-1.5">
-                <span className={cn("w-2 h-2 rounded-full", statusColors[s])} />
-                <span className="text-[10px] text-foreground-muted capitalize">{s.replace("-", " ")}</span>
+                <span className={cn("w-2 h-2 rounded-full", statusDotColors[s])} />
+                <span className="text-[10px] text-foreground-muted capitalize">
+                  {s.replace("-", " ")}
+                </span>
               </div>
             ))}
           </div>
@@ -47,121 +91,155 @@ export const TrainMap = ({ trains, stations, tick }: TrainMapProps) => {
         {/* Map canvas */}
         <div
           className="relative grid-pattern"
-          style={{ height: "480px", backgroundColor: "hsl(220 47% 4%)" }}
+          style={{ height: "520px", backgroundColor: "hsl(var(--background-secondary))" }}
         >
-          {/* India outline (simplified decorative shape) */}
-          <svg className="absolute inset-0 w-full h-full opacity-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-            {/* Track lines between major cities */}
-            {[
-              { x1: 35, y1: 22, x2: 18, y2: 60 }, // Delhi - Mumbai
-              { x1: 35, y1: 22, x2: 72, y2: 45 }, // Delhi - Kolkata
-              { x1: 18, y1: 60, x2: 42, y2: 82 }, // Mumbai - Bangalore
-              { x1: 72, y1: 45, x2: 52, y2: 78 }, // Kolkata - Chennai
-              { x1: 52, y1: 78, x2: 42, y2: 82 }, // Chennai - Bangalore
-              { x1: 35, y1: 22, x2: 28, y2: 35 }, // Delhi - Jaipur
-              { x1: 28, y1: 35, x2: 20, y2: 45 }, // Jaipur - Ahmedabad
-              { x1: 20, y1: 45, x2: 18, y2: 60 }, // Ahmedabad - Mumbai
-              { x1: 35, y1: 22, x2: 42, y2: 32 }, // Delhi - Agra
-              { x1: 42, y1: 32, x2: 52, y2: 28 }, // Agra - Gorakhpur
-              { x1: 18, y1: 60, x2: 25, y2: 68 }, // Mumbai - Pune
-              { x1: 25, y1: 68, x2: 42, y2: 82 }, // Pune - Bangalore
-            ].map((line, i) => (
-              <line
-                key={i}
-                x1={line.x1} y1={line.y1}
-                x2={line.x2} y2={line.y2}
-                stroke="hsl(152 100% 50%)"
-                strokeWidth="0.5"
-                strokeDasharray="2,2"
-              />
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              {/* Define each track path */}
+              {TRACKS.map(t => {
+                const a = stationByCode[t.from];
+                const b = stationByCode[t.to];
+                if (!a || !b) return null;
+                return (
+                  <path
+                    key={t.id}
+                    id={`track-${t.id}`}
+                    d={`M ${a.position.x} ${a.position.y} L ${b.position.x} ${b.position.y}`}
+                  />
+                );
+              })}
+            </defs>
+
+            {/* Render visible track lines */}
+            {TRACKS.map(t => {
+              const a = stationByCode[t.from];
+              const b = stationByCode[t.to];
+              if (!a || !b) return null;
+              return (
+                <g key={t.id}>
+                  {/* Track bed (thick subtle line) */}
+                  <line
+                    x1={a.position.x} y1={a.position.y}
+                    x2={b.position.x} y2={b.position.y}
+                    className="track-line"
+                  />
+                  {/* Rail ties (dashed overlay) */}
+                  <line
+                    x1={a.position.x} y1={a.position.y}
+                    x2={b.position.x} y2={b.position.y}
+                    className="track-rail"
+                  />
+                </g>
+              );
+            })}
+
+            {/* Animated trains traveling along tracks */}
+            {trainAssignments.map(({ train, trackId, duration }, i) => (
+              <g key={train.id}>
+                {/* Train marker */}
+                <circle
+                  r={1.4}
+                  fill={statusFillColors[train.status]}
+                  stroke="hsl(var(--background))"
+                  strokeWidth={0.4}
+                  opacity={0.95}
+                >
+                  <animateMotion
+                    dur={`${duration}s`}
+                    repeatCount="indefinite"
+                    rotate="auto"
+                    begin={`-${(i * duration) / runningTrains.length}s`}
+                  >
+                    <mpath href={`#track-${trackId}`} />
+                  </animateMotion>
+                </circle>
+                {/* Trailing pulse for critical trains */}
+                {train.status === "critical" && (
+                  <circle
+                    r={2.6}
+                    fill="none"
+                    stroke={statusFillColors[train.status]}
+                    strokeWidth={0.3}
+                    opacity={0.6}
+                  >
+                    <animateMotion
+                      dur={`${duration}s`}
+                      repeatCount="indefinite"
+                      begin={`-${(i * duration) / runningTrains.length}s`}
+                    >
+                      <mpath href={`#track-${trackId}`} />
+                    </animateMotion>
+                    <animate
+                      attributeName="r"
+                      values="1.4;3;1.4"
+                      dur="1.2s"
+                      repeatCount="indefinite"
+                    />
+                  </circle>
+                )}
+              </g>
             ))}
           </svg>
 
-          {/* Scanning grid overlay */}
-          <div className="absolute inset-0 scanline opacity-30 pointer-events-none" />
-
-          {/* Corner decorations */}
-          {["top-2 left-2", "top-2 right-2", "bottom-2 left-2", "bottom-2 right-2"].map((pos, i) => (
-            <div key={i} className={`absolute ${pos} w-4 h-4 border-primary/30 ${
-              i === 0 ? "border-t border-l" :
-              i === 1 ? "border-t border-r" :
-              i === 2 ? "border-b border-l" : "border-b border-r"
-            }`} />
-          ))}
-
-          {/* Stations */}
-          {stations.map(station => (
-            <div
-              key={station.code}
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
-              style={{ left: `${station.position.x}%`, top: `${station.position.y}%` }}
-            >
-              <div className={cn(
-                "w-4 h-4 rounded-full border-2 flex items-center justify-center transition-all duration-300",
-                station.activeTrains > 8
-                  ? "border-destructive bg-destructive/20 shadow-[0_0_10px_hsl(0_85%_58%/0.5)]"
-                  : station.avgDelay > 5
-                  ? "border-warning bg-warning/20 shadow-[0_0_8px_hsl(38_100%_55%/0.4)]"
-                  : "border-primary/70 bg-primary/10 shadow-[0_0_6px_hsl(152_100%_50%/0.3)]"
-              )}>
-                <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-              </div>
-              {/* Station label */}
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block z-20">
-                <div className="bg-background-elevated border border-border rounded-md px-2 py-1.5 text-center shadow-card whitespace-nowrap">
-                  <p className="text-[11px] font-semibold text-foreground">{station.name}</p>
-                  <p className="text-[9px] text-foreground-muted">{station.activeTrains} trains · {station.avgDelay.toFixed(1)}m delay</p>
+          {/* Stations - HTML overlay for tooltips */}
+          {stations.map(station => {
+            const isBusy = station.activeTrains > 8;
+            const hasDelay = station.avgDelay > 5;
+            return (
+              <div
+                key={station.code}
+                className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10"
+                style={{ left: `${station.position.x}%`, top: `${station.position.y}%` }}
+              >
+                <div className={cn(
+                  "w-3.5 h-3.5 rounded-sm border-2 flex items-center justify-center transition-all bg-background",
+                  isBusy ? "border-destructive" : hasDelay ? "border-warning" : "border-primary"
+                )}>
+                  <span className={cn(
+                    "w-1 h-1 rounded-full",
+                    isBusy ? "bg-destructive" : hasDelay ? "bg-warning" : "bg-primary"
+                  )} />
                 </div>
-              </div>
-              {/* Station name always visible */}
-              <p className="absolute top-5 left-1/2 -translate-x-1/2 text-[9px] font-mono text-foreground-muted whitespace-nowrap">
-                {station.code}
-              </p>
-            </div>
-          ))}
 
-          {/* Trains */}
-          {trains.filter(t => t.status !== "idle").map(train => (
-            <div
-              key={train.id}
-              className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer z-10 transition-all duration-2000"
-              style={{ left: `${train.position.x}%`, top: `${train.position.y}%` }}
-            >
-              <div className={cn("w-3 h-3 rounded-full flex items-center justify-center", statusColors[train.status])}>
-                <span className="w-1 h-1 rounded-full bg-current opacity-80" />
-              </div>
-              {/* Train tooltip */}
-              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-30">
-                <div className="bg-background-elevated border border-border rounded-lg px-3 py-2 shadow-card min-w-[160px]">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <TrainIcon className="w-3 h-3 text-foreground-muted" />
-                    <span className="text-[11px] font-semibold text-foreground">{train.name}</span>
-                  </div>
-                  <p className="text-[9px] text-foreground-muted">{train.number} · {train.route}</p>
-                  <div className="flex items-center justify-between mt-1.5 pt-1.5 border-t border-border">
-                    <span className={cn("text-[10px] font-medium capitalize", statusTextColors[train.status])}>
-                      {train.status.replace("-", " ")}
-                    </span>
-                    <span className="text-[10px] font-mono text-foreground-muted">{train.speed} km/h</span>
-                  </div>
-                  {train.delay > 0 && (
-                    <div className="flex items-center gap-1 mt-1">
-                      <AlertTriangle className="w-2.5 h-2.5 text-warning" />
-                      <span className="text-[10px] text-warning">{train.delay}m delay</span>
+                {/* Station code label */}
+                <p className="absolute top-4 left-1/2 -translate-x-1/2 text-[9px] font-mono text-foreground-muted whitespace-nowrap font-semibold">
+                  {station.code}
+                </p>
+
+                {/* Hover tooltip */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-30">
+                  <div className="card-elevated rounded-md px-3 py-2 whitespace-nowrap">
+                    <p className="text-[11px] font-semibold text-foreground">{station.name}</p>
+                    <div className="flex items-center gap-3 mt-1">
+                      <span className="text-[10px] text-foreground-muted">
+                        <span className="text-foreground font-mono">{station.activeTrains}</span> trains
+                      </span>
+                      <span className="text-[10px] text-foreground-muted">
+                        <span className={cn("font-mono", hasDelay ? "text-warning" : "text-primary")}>
+                          {station.avgDelay.toFixed(1)}m
+                        </span> delay
+                      </span>
                     </div>
-                  )}
+                    <div className="text-[10px] text-foreground-muted mt-0.5">
+                      Platforms: <span className="text-foreground font-mono">{station.platformsOccupied}/{station.totalPlatforms}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
 
-          {/* Map coordinates */}
+          {/* Map metadata */}
           <div className="absolute bottom-2 left-3 text-[9px] font-mono text-foreground-subtle">
-            8.08°N – 37.09°N, 68.11°E – 97.41°E
+            India Rail Grid · 10 sections monitored
           </div>
           <div className="absolute bottom-2 right-3 flex items-center gap-1.5 text-[9px] font-mono text-foreground-subtle">
             <Wifi className="w-2.5 h-2.5 text-primary" />
-            LIVE
+            <span>SYNC · {new Date().toLocaleTimeString()}</span>
           </div>
         </div>
       </div>
@@ -169,56 +247,63 @@ export const TrainMap = ({ trains, stations, tick }: TrainMapProps) => {
       {/* Train list */}
       <div className="card-glass rounded-xl overflow-hidden">
         <div className="px-4 py-3 border-b border-border flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-foreground">Active Train Registry</h3>
-          <span className="text-[10px] font-mono text-foreground-muted">{trains.length} trains tracked</span>
+          <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+            <TrainIcon className="w-4 h-4 text-primary" />
+            Active Train Registry
+          </h3>
+          <span className="text-[10px] font-mono text-foreground-muted">
+            {trains.length} trains tracked
+          </span>
         </div>
         <div className="overflow-x-auto scrollbar-thin">
           <table className="w-full text-[12px]">
             <thead>
-              <tr className="border-b border-border">
+              <tr className="border-b border-border bg-background-secondary">
                 {["Train ID", "Name", "Route", "Status", "Speed", "Delay", "Progress", "Next Station", "Platform"].map(h => (
-                  <th key={h} className="px-3 py-2.5 text-left text-[10px] font-mono text-foreground-muted tracking-widest whitespace-nowrap">{h.toUpperCase()}</th>
+                  <th key={h} className="px-3 py-2.5 text-left text-[10px] font-semibold text-foreground-muted tracking-wider uppercase whitespace-nowrap">
+                    {h}
+                  </th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {trains.map((train, i) => (
+              {trains.map(train => (
                 <tr key={train.id} className={cn(
-                  "border-b border-border/50 hover:bg-muted/30 transition-colors",
+                  "border-b border-border/50 hover:bg-background-hover/40 transition-colors",
                   train.status === "critical" && "bg-destructive/5"
                 )}>
-                  <td className="px-3 py-2 font-mono text-foreground-muted">{train.id}</td>
-                  <td className="px-3 py-2">
+                  <td className="px-3 py-2.5 font-mono text-foreground-muted">{train.id}</td>
+                  <td className="px-3 py-2.5">
                     <div>
                       <p className="text-foreground font-medium">{train.name}</p>
-                      <p className="text-[10px] text-foreground-subtle">{train.number}</p>
+                      <p className="text-[10px] text-foreground-subtle font-mono">{train.number}</p>
                     </div>
                   </td>
-                  <td className="px-3 py-2 font-mono text-foreground-muted">{train.route}</td>
-                  <td className="px-3 py-2">
+                  <td className="px-3 py-2.5 font-mono text-foreground-muted">{train.route}</td>
+                  <td className="px-3 py-2.5">
                     <span className={cn(
-                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium",
-                      train.status === "on-time" && "bg-primary/10 text-primary",
-                      train.status === "delayed" && "bg-warning/10 text-warning",
-                      train.status === "critical" && "bg-destructive/10 text-destructive",
-                      train.status === "maintenance" && "bg-status-maintenance/10 text-status-maintenance",
-                      train.status === "idle" && "bg-muted text-foreground-muted",
+                      "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-medium border",
+                      train.status === "on-time" && "bg-status-on-time/10 text-status-on-time border-status-on-time/30",
+                      train.status === "delayed" && "bg-warning/10 text-warning border-warning/30",
+                      train.status === "critical" && "bg-destructive/10 text-destructive border-destructive/30",
+                      train.status === "maintenance" && "bg-status-maintenance/10 text-status-maintenance border-status-maintenance/30",
+                      train.status === "idle" && "bg-muted text-foreground-muted border-border",
                     )}>
-                      <span className={cn("w-1.5 h-1.5 rounded-full", statusColors[train.status])} />
+                      <span className={cn("w-1.5 h-1.5 rounded-full", statusDotColors[train.status])} />
                       {train.status.replace("-", " ")}
                     </span>
                   </td>
-                  <td className="px-3 py-2 font-mono text-foreground">{train.speed} km/h</td>
-                  <td className="px-3 py-2">
+                  <td className="px-3 py-2.5 font-mono text-foreground">{train.speed} km/h</td>
+                  <td className="px-3 py-2.5">
                     {train.delay > 0 ? (
                       <span className={cn("font-mono", train.delay > 30 ? "text-destructive" : "text-warning")}>
                         +{train.delay}m
                       </span>
                     ) : (
-                      <span className="text-primary font-mono">On time</span>
+                      <span className="text-status-on-time font-mono">On time</span>
                     )}
                   </td>
-                  <td className="px-3 py-2">
+                  <td className="px-3 py-2.5">
                     <div className="flex items-center gap-2">
                       <div className="w-20 h-1.5 bg-muted rounded-full overflow-hidden">
                         <div
@@ -226,11 +311,11 @@ export const TrainMap = ({ trains, stations, tick }: TrainMapProps) => {
                           style={{ width: `${train.progress}%` }}
                         />
                       </div>
-                      <span className="text-[10px] font-mono text-foreground-muted">{train.progress}%</span>
+                      <span className="text-[10px] font-mono text-foreground-muted w-8">{train.progress}%</span>
                     </div>
                   </td>
-                  <td className="px-3 py-2 text-foreground-muted">{train.nextStation}</td>
-                  <td className="px-3 py-2 font-mono text-secondary">{train.platform}</td>
+                  <td className="px-3 py-2.5 text-foreground-muted">{train.nextStation}</td>
+                  <td className="px-3 py-2.5 font-mono text-secondary">{train.platform}</td>
                 </tr>
               ))}
             </tbody>

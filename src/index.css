@@ -2,100 +2,97 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Railway Control System - Dark Mission Control Design System */
+/* Railway Control System - Professional Enterprise Design System */
 /* All colors are HSL */
 
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Orbitron:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap');
 
 @layer base {
   :root {
-    /* Core backgrounds */
-    --background: 222 47% 5%;
-    --background-secondary: 220 40% 7%;
-    --background-card: 220 35% 9%;
-    --background-elevated: 220 30% 12%;
-    --background-hover: 220 25% 15%;
+    /* Core backgrounds - deep slate, no pure black */
+    --background: 222 24% 9%;
+    --background-secondary: 222 22% 11%;
+    --background-card: 222 20% 13%;
+    --background-elevated: 222 18% 16%;
+    --background-hover: 222 16% 19%;
 
-    --foreground: 210 40% 96%;
-    --foreground-muted: 215 25% 60%;
-    --foreground-subtle: 215 20% 40%;
+    --foreground: 210 30% 96%;
+    --foreground-muted: 215 16% 65%;
+    --foreground-subtle: 215 14% 45%;
 
-    --card: 220 35% 9%;
-    --card-foreground: 210 40% 96%;
+    --card: 222 20% 13%;
+    --card-foreground: 210 30% 96%;
 
-    --popover: 220 35% 9%;
-    --popover-foreground: 210 40% 96%;
+    --popover: 222 22% 11%;
+    --popover-foreground: 210 30% 96%;
 
-    /* Brand: neon green */
-    --primary: 152 100% 50%;
-    --primary-foreground: 222 47% 5%;
-    --primary-glow: 152 100% 60%;
-    --primary-dim: 152 60% 30%;
+    /* Brand: professional steel blue */
+    --primary: 210 90% 56%;
+    --primary-foreground: 210 30% 98%;
+    --primary-glow: 210 90% 65%;
+    --primary-dim: 210 50% 30%;
 
-    /* Secondary: electric cyan */
-    --secondary: 195 100% 50%;
-    --secondary-foreground: 222 47% 5%;
+    /* Secondary: muted teal accent */
+    --secondary: 188 60% 48%;
+    --secondary-foreground: 222 24% 9%;
 
-    /* Accent: electric blue */
-    --accent: 215 100% 60%;
-    --accent-foreground: 222 47% 5%;
+    /* Accent: indigo */
+    --accent: 232 70% 60%;
+    --accent-foreground: 210 30% 98%;
 
-    /* Warning: amber */
-    --warning: 38 100% 55%;
-    --warning-foreground: 222 47% 5%;
+    /* Warning: refined amber */
+    --warning: 35 90% 55%;
+    --warning-foreground: 222 24% 9%;
 
-    /* Danger: red */
-    --destructive: 0 85% 58%;
-    --destructive-foreground: 210 40% 98%;
+    /* Danger: refined coral red */
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 210 30% 98%;
 
-    /* Status colors */
-    --status-on-time: 152 100% 50%;
-    --status-delayed: 38 100% 55%;
-    --status-critical: 0 85% 58%;
-    --status-maintenance: 270 80% 65%;
-    --status-idle: 215 25% 50%;
+    /* Status colors - muted, professional */
+    --status-on-time: 152 55% 48%;
+    --status-delayed: 35 90% 55%;
+    --status-critical: 0 72% 55%;
+    --status-maintenance: 262 55% 62%;
+    --status-idle: 215 14% 50%;
 
-    --muted: 220 25% 14%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 222 18% 17%;
+    --muted-foreground: 215 16% 60%;
 
-    --border: 220 25% 18%;
-    --border-bright: 152 60% 30%;
-    --input: 220 25% 14%;
-    --ring: 152 100% 50%;
+    --border: 222 16% 20%;
+    --border-bright: 222 16% 28%;
+    --input: 222 18% 17%;
+    --ring: 210 90% 56%;
 
-    --radius: 0.5rem;
+    --radius: 0.625rem;
 
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(152 100% 50% / 0.15), hsl(195 100% 50% / 0.08));
-    --gradient-hero: linear-gradient(180deg, hsl(222 47% 5%), hsl(220 40% 7%));
-    --gradient-card: linear-gradient(135deg, hsl(220 35% 9%), hsl(220 28% 11%));
-    --gradient-danger: linear-gradient(135deg, hsl(0 85% 58% / 0.15), hsl(0 60% 40% / 0.05));
-    --gradient-warning: linear-gradient(135deg, hsl(38 100% 55% / 0.12), hsl(38 80% 40% / 0.05));
-    --gradient-success: linear-gradient(135deg, hsl(152 100% 50% / 0.12), hsl(152 60% 35% / 0.05));
+    /* Subtle gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(210 90% 56% / 0.10), hsl(232 70% 60% / 0.05));
+    --gradient-hero: linear-gradient(180deg, hsl(222 24% 9%), hsl(222 22% 11%));
+    --gradient-card: linear-gradient(180deg, hsl(222 20% 13%), hsl(222 20% 12%));
+    --gradient-danger: linear-gradient(135deg, hsl(0 72% 55% / 0.10), hsl(0 60% 40% / 0.04));
+    --gradient-warning: linear-gradient(135deg, hsl(35 90% 55% / 0.10), hsl(35 80% 40% / 0.04));
+    --gradient-success: linear-gradient(135deg, hsl(152 55% 48% / 0.10), hsl(152 50% 35% / 0.04));
 
-    /* Shadows & glows */
-    --shadow-primary: 0 0 20px hsl(152 100% 50% / 0.15), 0 4px 24px hsl(152 100% 50% / 0.08);
-    --shadow-card: 0 4px 24px hsl(222 47% 2% / 0.6), 0 1px 4px hsl(222 47% 2% / 0.4);
-    --shadow-danger: 0 0 20px hsl(0 85% 58% / 0.2);
-    --glow-primary: 0 0 8px hsl(152 100% 50% / 0.6), 0 0 20px hsl(152 100% 50% / 0.3);
-    --glow-secondary: 0 0 8px hsl(195 100% 50% / 0.6), 0 0 20px hsl(195 100% 50% / 0.3);
-    --glow-warning: 0 0 8px hsl(38 100% 55% / 0.6), 0 0 20px hsl(38 100% 55% / 0.3);
-    --glow-danger: 0 0 8px hsl(0 85% 58% / 0.6), 0 0 20px hsl(0 85% 58% / 0.3);
+    /* Soft shadows, no glows */
+    --shadow-primary: 0 1px 2px hsl(222 24% 4% / 0.4), 0 4px 12px hsl(222 24% 4% / 0.3);
+    --shadow-card: 0 1px 2px hsl(222 24% 4% / 0.3), 0 2px 8px hsl(222 24% 4% / 0.2);
+    --shadow-elevated: 0 2px 4px hsl(222 24% 4% / 0.4), 0 8px 24px hsl(222 24% 4% / 0.35);
+    --shadow-danger: 0 1px 2px hsl(0 72% 30% / 0.3), 0 4px 12px hsl(0 72% 30% / 0.2);
 
     /* Typography */
-    --font-display: 'Orbitron', monospace;
-    --font-body: 'Space Grotesk', sans-serif;
+    --font-display: 'Manrope', sans-serif;
+    --font-body: 'Inter', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
 
     /* Sidebar */
-    --sidebar-background: 222 47% 4%;
-    --sidebar-foreground: 210 30% 80%;
-    --sidebar-primary: 152 100% 50%;
-    --sidebar-primary-foreground: 222 47% 5%;
-    --sidebar-accent: 220 25% 12%;
-    --sidebar-accent-foreground: 210 40% 96%;
-    --sidebar-border: 220 25% 12%;
-    --sidebar-ring: 152 100% 50%;
+    --sidebar-background: 222 26% 8%;
+    --sidebar-foreground: 215 16% 70%;
+    --sidebar-primary: 210 90% 56%;
+    --sidebar-primary-foreground: 210 30% 98%;
+    --sidebar-accent: 222 20% 14%;
+    --sidebar-accent-foreground: 210 30% 96%;
+    --sidebar-border: 222 18% 16%;
+    --sidebar-ring: 210 90% 56%;
   }
 }
 
@@ -107,12 +104,14 @@
   body {
     @apply bg-background text-foreground;
     font-family: var(--font-body);
+    font-feature-settings: "cv11", "ss01";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-body);
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
   }
 
   code, pre, .mono {
@@ -128,68 +127,32 @@
     font-family: var(--font-mono);
   }
 
-  /* Glow utilities */
-  .glow-primary { box-shadow: var(--glow-primary); }
-  .glow-secondary { box-shadow: var(--glow-secondary); }
-  .glow-warning { box-shadow: var(--glow-warning); }
-  .glow-danger { box-shadow: var(--glow-danger); }
-
-  .text-glow-primary {
-    text-shadow: 0 0 8px hsl(152 100% 50% / 0.8), 0 0 20px hsl(152 100% 50% / 0.4);
-  }
-  .text-glow-secondary {
-    text-shadow: 0 0 8px hsl(195 100% 50% / 0.8), 0 0 20px hsl(195 100% 50% / 0.4);
-  }
-  .text-glow-warning {
-    text-shadow: 0 0 8px hsl(38 100% 55% / 0.8), 0 0 20px hsl(38 100% 55% / 0.4);
-  }
-  .text-glow-danger {
-    text-shadow: 0 0 8px hsl(0 85% 58% / 0.8), 0 0 20px hsl(0 85% 58% / 0.4);
-  }
-
-  /* Card styles */
+  /* Card styles - flat, clean */
   .card-glass {
-    background: var(--gradient-card);
+    background: hsl(var(--card));
     border: 1px solid hsl(var(--border));
     box-shadow: var(--shadow-card);
   }
 
+  .card-elevated {
+    background: hsl(var(--background-elevated));
+    border: 1px solid hsl(var(--border));
+    box-shadow: var(--shadow-elevated);
+  }
+
   .card-primary {
     background: var(--gradient-success);
-    border: 1px solid hsl(152 60% 25%);
+    border: 1px solid hsl(var(--border));
   }
 
   .card-warning {
     background: var(--gradient-warning);
-    border: 1px solid hsl(38 80% 30%);
+    border: 1px solid hsl(var(--border));
   }
 
   .card-danger {
     background: var(--gradient-danger);
-    border: 1px solid hsl(0 60% 35%);
-  }
-
-  /* Scan line animation for authenticity */
-  .scanline {
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      hsl(152 100% 50% / 0.02) 2px,
-      hsl(152 100% 50% / 0.02) 4px
-    );
-    pointer-events: none;
-  }
-
-  /* Pulse animations */
-  .pulse-primary {
-    animation: pulse-primary 2s ease-in-out infinite;
-  }
-  .pulse-warning {
-    animation: pulse-warning 1.5s ease-in-out infinite;
-  }
-  .pulse-danger {
-    animation: pulse-danger 1s ease-in-out infinite;
+    border: 1px solid hsl(var(--border));
   }
 
   /* Status dot */
@@ -199,81 +162,73 @@
 
   /* Scrollbar */
   .scrollbar-thin::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
   }
   .scrollbar-thin::-webkit-scrollbar-track {
-    background: hsl(var(--background));
+    background: transparent;
   }
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 2px;
+    background: hsl(var(--border-bright));
+    border-radius: 3px;
   }
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--primary) / 0.5);
+    background: hsl(var(--foreground-subtle));
   }
 
-  /* Grid pattern */
+  /* Subtle dotted grid */
   .grid-pattern {
-    background-image: 
-      linear-gradient(hsl(152 100% 50% / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, hsl(152 100% 50% / 0.05) 1px, transparent 1px);
-    background-size: 40px 40px;
+    background-image: radial-gradient(hsl(var(--border-bright)) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Railway track styling */
+  .track-line {
+    stroke: hsl(var(--border-bright));
+    stroke-width: 2.5;
+    fill: none;
+  }
+  .track-rail {
+    stroke: hsl(var(--foreground-subtle));
+    stroke-width: 0.6;
+    fill: none;
+    stroke-dasharray: 1.2 1.2;
+    opacity: 0.7;
   }
 }
 
-@keyframes pulse-primary {
-  0%, 100% { box-shadow: 0 0 4px hsl(152 100% 50% / 0.4); }
-  50% { box-shadow: 0 0 16px hsl(152 100% 50% / 0.8), 0 0 32px hsl(152 100% 50% / 0.4); }
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
-@keyframes pulse-warning {
-  0%, 100% { box-shadow: 0 0 4px hsl(38 100% 55% / 0.4); }
-  50% { box-shadow: 0 0 16px hsl(38 100% 55% / 0.8), 0 0 32px hsl(38 100% 55% / 0.4); }
-}
-
-@keyframes pulse-danger {
-  0%, 100% { box-shadow: 0 0 4px hsl(0 85% 58% / 0.4); opacity: 1; }
-  50% { box-shadow: 0 0 16px hsl(0 85% 58% / 0.9), 0 0 32px hsl(0 85% 58% / 0.5); opacity: 0.8; }
-}
-
-@keyframes train-move {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100vw); }
-}
-
-@keyframes radar-scan {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes train-glide {
+  0% { offset-distance: 0%; }
+  100% { offset-distance: 100%; }
 }
 
 @keyframes blink {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  50% { opacity: 0.3; }
 }
 
 @keyframes slide-in-left {
-  from { transform: translateX(-20px); opacity: 0; }
+  from { transform: translateX(-12px); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes fade-in-up {
-  from { transform: translateY(12px); opacity: 0; }
+  from { transform: translateY(8px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-@keyframes data-stream {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+@keyframes signal-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.4); opacity: 0; }
 }
 
-.animate-train-move { animation: train-move 8s linear infinite; }
-.animate-radar { animation: radar-scan 4s linear infinite; }
-.animate-blink { animation: blink 1s step-end infinite; }
+.animate-blink { animation: blink 1.4s ease-in-out infinite; }
+.animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
 .animate-slide-in { animation: slide-in-left 0.3s ease-out; }
-.animate-fade-up { animation: fade-in-up 0.4s ease-out; }
-.animate-data-stream {
-  background-size: 200% 200%;
-  animation: data-stream 3s ease infinite;
-}
+.animate-fade-up { animation: fade-in-up 0.35s ease-out; }
+.animate-signal-pulse { animation: signal-pulse 2s ease-out infinite; }
