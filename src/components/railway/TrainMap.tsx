@@ -356,9 +356,9 @@ export const TrainMap = ({ trains, stations, tick }: TrainMapProps) => {
                 onMouseLeave={() => setSelectedStation(null)}
               >
                 {/* Invisible hit area */}
-                <div className="w-6 h-6" />
+                <div className="w-7 h-7" />
                 {/* Station code label */}
-                <p className="absolute top-3.5 left-1/2 -translate-x-1/2 text-[9px] font-mono font-semibold text-foreground-muted whitespace-nowrap tracking-wide pointer-events-none">
+                <p className="absolute top-5 left-1/2 -translate-x-1/2 text-[9px] font-mono font-semibold text-foreground whitespace-nowrap tracking-wider pointer-events-none px-1 py-px rounded bg-background/70 backdrop-blur-sm">
                   {station.code}
                 </p>
 
