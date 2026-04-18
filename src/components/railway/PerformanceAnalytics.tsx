@@ -36,21 +36,22 @@ const generateRoutePerformance = () => [
 ];
 
 const pieData = [
-  { name: "On Time", value: 58, color: "hsl(152, 100%, 50%)" },
-  { name: "Minor Delay", value: 22, color: "hsl(38, 100%, 55%)" },
-  { name: "Major Delay", value: 12, color: "hsl(25, 100%, 50%)" },
-  { name: "Critical", value: 5, color: "hsl(0, 85%, 58%)" },
-  { name: "Maintenance", value: 3, color: "hsl(270, 80%, 65%)" },
+  { name: "On Time", value: 58, color: "hsl(152, 55%, 48%)" },
+  { name: "Minor Delay", value: 22, color: "hsl(35, 90%, 55%)" },
+  { name: "Major Delay", value: 12, color: "hsl(20, 85%, 55%)" },
+  { name: "Critical", value: 5, color: "hsl(0, 72%, 55%)" },
+  { name: "Maintenance", value: 3, color: "hsl(262, 55%, 62%)" },
 ];
 
 const customTooltipStyle = {
-  backgroundColor: "hsl(220, 35%, 9%)",
-  border: "1px solid hsl(220, 25%, 18%)",
+  backgroundColor: "hsl(222, 18%, 16%)",
+  border: "1px solid hsl(222, 16%, 22%)",
   borderRadius: "8px",
   padding: "8px 12px",
-  color: "hsl(210, 40%, 96%)",
+  color: "hsl(210, 30%, 96%)",
   fontSize: "11px",
   fontFamily: "JetBrains Mono, monospace",
+  boxShadow: "0 8px 24px hsl(222 24% 4% / 0.4)",
 };
 
 export const PerformanceAnalytics = ({ metrics, tick }: PerformanceAnalyticsProps) => {
